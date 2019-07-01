@@ -87,11 +87,11 @@ Given the percentage you chose, how long would the experiment take to run, using
 The data for you to analyze is in the  ['Final Project Results workbook'](https://docs.google.com/spreadsheets/d/1Mu5u9GrybDdska-ljPXyBjTpdZIUev_6i7t4LRDfXM8/edit#gid=0&sa=D&ust=1561473508747000). This data contains the raw information needed to compute the above metrics, broken down day by day. Note that there are two sheets within the spreadsheet - one for the experiment group, and one for the control group.
  
 The meaning of each column is:
-| Column header | Definition                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Pageviews     | Number of unique cookies to view the course overview page that day.                                                                                                                                                                                                                                                                                                           |
-| Clicks        | Number of unique cookies to click the course overview page that day.                                                                                                                                                                                                                                                                                                          |
-| Enrollments   | Number of user-ids to enroll in the free trial that day.                                                                                                                                                                                                                                                                                                                      |
+| Column header | Definition|
+| ------------- | ----------|
+| Pageviews     | Number of unique cookies to view the course overview page that day.|
+| Clicks        | Number of unique cookies to click the course overview page that day.|
+| Enrollments   | Number of user-ids to enroll in the free trial that day.|
 | Payments      | Number of user-ids who who enrolled on that day to remain enrolled for 14 days and thus make a payment. (Note that the date for this column is the start date, that is, the date of enrollment, rather than the date of the payment. The payment happened 14 days later. Because of this, the enrollments and payments are tracked for 14 fewer days than the other columns.) |
 
 
