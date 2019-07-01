@@ -3,11 +3,12 @@ Udacity published a course for A/B Testing, also known as split tests, which are
 
 I used the template (each section has a Red font header) provided by Udacity and provided my walk-through solution (highlighted in yellow) to come up with my conclusions. I have also leverage other resources in the web (similar AB testing analysis done by others) to better understand and complete this project. 
 
-## **Resource links**
+**Resource links**
 * https://www.udacity.com/course/ab-testing--ud257
 * https://github.com/baumanab/udacity_ABTesting/tree36bc61e56e0d8485573ed17d4f6af9471e700f94#unused-metrics
 * https://www.kaggle.com/tammyrotem/ab-tests-with-python
 
+----
 # **Final Project Instructions**
 ## **Experiment Overview: Free Trial Screener**
 At the time of this experiment, Udacity courses currently have two options on the course overview page: "start free trial", and "access course materials". If the student clicks "start free trial", they will be asked to enter their credit card information, and then they will be enrolled in a free trial for the paid version of the course. After 14 days, they will automatically be charged unless they cancel first. If the student clicks "access course materials", they will be able to view the videos and take the quizzes for free, but they will not receive coaching support or a verified certificate, and they will not submit their final project for feedback.
