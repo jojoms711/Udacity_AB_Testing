@@ -43,7 +43,8 @@ You should also decide now what results you will be looking for in order to laun
 > The ultimate goal is to minimize student frustration and to most effectively use limited coaching resources. Setting clearer expectations upfront will reduce number
 >
 > Experiment Hypothesis: Setting clearer expectactions upfront will reduce Gross Conversion but 
->
+>  
+> ![Event Flow](https://raw.githubusercontent.com/jojoms711/Udacity_AB_Testing/master/Event_Flow.png "Event Flow")
 > 
 > Red box indicates point of change in the process flow in this test.
 >
@@ -68,7 +69,7 @@ You should also decide now what results you will be looking for in order to laun
 
 ---
 ## **Measuring Variability**
-This ['Final Project Baseline Values' spreadsheet](https://docs.google.com/spreadsheets/d/1MYNUtC47Pg8hdoCjOXaHqF-thheGpUshrFA21BAJnNc/edit#gid=0) contains rough estimates of the baseline values for these metrics (again, these numbers have been changed from Udacity's true numbers).
+This ['Final Project Baseline Values' spreadsheet](https://docs.google.com/spreadsheets/d/1MYNUtC47Pg8hdoCjOXaHqF-thheGpUshrFA21BAJnNc/edit#gid=0) <a href="https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Baseline_Values.csv" target="_blank">'Final Project Baseline Values' </a> spreadsheet contains rough estimates of the baseline values for these metrics (again, these numbers have been changed from Udacity's true numbers).
  
 For each metric you selected as an evaluation metric, estimate its standard deviation analytically. Do you expect the analytic estimates to be accurate? That is, for which metrics, if any, would you want to collect an empirical estimate of the variability if you had time?
 
@@ -87,7 +88,7 @@ Given the percentage you chose, how long would the experiment take to run, using
 The data for you to analyze is in the  ['Final Project Results workbook'](https://docs.google.com/spreadsheets/d/1Mu5u9GrybDdska-ljPXyBjTpdZIUev_6i7t4LRDfXM8/edit#gid=0&sa=D&ust=1561473508747000). This data contains the raw information needed to compute the above metrics, broken down day by day. Note that there are two sheets within the spreadsheet - one for the experiment group, and one for the control group.
  
 The meaning of each column is:
-| Column header | Definition|
+| Col header | Definition|
 | ------------- | ----------|
 | Pageviews     | Number of unique cookies to view the course overview page that day.|
 | Clicks        | Number of unique cookies to click the course overview page that day.|
