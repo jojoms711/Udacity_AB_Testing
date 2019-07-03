@@ -1,7 +1,9 @@
 # **Background**
 Udacity published a course for A/B Testing, also known as split tests, which are online experiments used to test potential improvements to a website or mobile app. Udacity's AB Testing course is presented by Google and focuses on design and analysis of A/B tests. The course covers how to choose and characterize metrics to evaluate your experiments, how to design an experiment with enough statistical power and how to analyze the results and draw valid conclusions. This is the final project in the course.
 
-I used the template provided by Udacity and provided my walk-through solution (highlighted in yellow) in each section. I have also leveraged other resources in the web (similar AB testing analysis done by others) to better understand and complete this project in Python. Initially, I completed this project on Evernote, compiling all my calculations solely based on the basic Windows calculator and Excel spreadsheet to be familiar with the analysis, then I write in Python to replicate the same results in VSC.  
+I used the template provided by Udacity and provided my walk-through solution (highlighted in yellow) in each section with detailed python calculations stored in [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb). 
+
+I have also leveraged other resources in the web (similar AB testing analysis done by others) to better understand and complete this project in Python. Initially, I completed this project on Evernote, compiling all my calculations solely based on the basic Windows calculator and Excel spreadsheet to be familiar with the analysis, then I write in Python to replicate the same results in VSC.  
 
 **Resource links**
 * [Udacity A/B Testing Project link](https://www.udacity.com/course/ab-testing--ud257)
@@ -38,7 +40,7 @@ Any place "unique cookies" are mentioned, the uniqueness is determined by day. (
  
 You should also decide now what results you will be looking for in order to launch the experiment. Would a change in any one of your evaluation metrics be sufficient? Would you want to see multiple metrics all move or not move at the same time in order to launch? This decision will inform your choices while designing the experiment.
 
-> ## *My understanding of this experiment*:
+> ### **My understanding of this experiment:**
 > 
 > The ultimate goal is to minimize student frustration and to most effectively use limited coaching resources. Setting clearer expectations upfront will reduce number
 >
@@ -49,14 +51,12 @@ You should also decide now what results you will be looking for in order to laun
 > Red box indicates point of change in the process flow in this test.
 >
 > **Invariant metrics:**
-> 
 > These metrics represents user activities before the user will experience the change, thus they are considered invariant.
 > 1. *Number of cookies* - This is the unit of diversion and even distribution would be expected between control and experiment groups, thus considered invariant.
 > 2. *Number of clicks* - Number of unique users to click on the free trial button would also expected to be evenly distributed between control and experiment groups since at this point in the funnel, the change has not occurred yet, thus considered invariant.
 > 3. *Click-through-probability* - This metric is entirely driven from the previous 2 metrics, and if both expected to be invariant, this is automatically considered invariant too.
 >
-> **Evaluation metrics:**
-> 
+> **Evaluation metrics:** 
 > Metrics with the possibility of different distributions between experiment and control groups as a function of the experiment. Each evaluation metric is associated with a minimum difference (dmin) that must be observed for consideration in the decision to launch the experiment. 
  > 1. *Gross Conversion* - If the hypothesis is true, Gross Conversion will decrease with less students starting the free trial (only those who would commit >5 hours per week would sign up)
  > 2. *Retention* - If the hypothesis is true, there will be an increase in Retention with more users staying beyond the free trial in the experiment group.  (clearer expectation of commitment upfront will have less users quitting during free trial)
@@ -69,25 +69,79 @@ You should also decide now what results you will be looking for in order to laun
 
 ---
 ## **Measuring Variability**
-This ['Final Project Baseline Values' spreadsheet](https://docs.google.com/spreadsheets/d/1MYNUtC47Pg8hdoCjOXaHqF-thheGpUshrFA21BAJnNc/edit#gid=0) <a href="https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Baseline_Values.csv" target="_blank">'Final Project Baseline Values' </a> spreadsheet contains rough estimates of the baseline values for these metrics (again, these numbers have been changed from Udacity's true numbers).
+This [Final Project Baseline Values](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Baseline_Values.csv) spreadsheet contains rough estimates of the baseline values for these metrics (again, these numbers have been changed from Udacity's true numbers).
  
 For each metric you selected as an evaluation metric, estimate its standard deviation analytically. Do you expect the analytic estimates to be accurate? That is, for which metrics, if any, would you want to collect an empirical estimate of the variability if you had time?
+
+>### Solution:
+>$$ SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}  $$
+>The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. This is the case for Gross Conversion and Net Conversion, but **not** Retention. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
+>
+>|Evaluation Metric             |Probability    |dmin       |SD    |
+>|------             |-----------    |----       |------|
+>|Gross Conversion   |0.206250       |0.0100	    |0.0202|
+>|Retention	        |0.530000	    |0.0100	    |0.0549|
+>|Net_Conversion	    |0.109313	    |0.0075	    |0.0156|	
+>|
+> *See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
 ## **Sizing**
 ### **Choosing Number of Samples given Power**
-Using the analytic estimates of variance, how many pageviews total (across both groups) would you need to collect to adequately power the experiment? Use an alpha of 0.05 and a beta of 0.2. Make sure you have enough power for each metric
+Using the analytic estimates of variance, how many ```pageviews total (across both groups)``` would you need to collect to adequately power the experiment? ```Use an alpha of 0.05 and a beta of 0.2.``` Make sure you have enough power for each metric
 
 ### **Choosing Duration vs. Exposure**
 What percentage of Udacity's traffic would you divert to this experiment (assuming there were no other experiments you wanted to run simultaneously)? Is the change risky enough that you wouldn't want to run on all traffic?
  
-Given the percentage you chose, how long would the experiment take to run, using the analytic estimates of variance? If the answer is longer than a few weeks, then this is unreasonably long, and you should reconsider an earlier decision.
+Given the percentage you chose, how long would the experiment take to run, using the analytic estimates of variance? ```If the answer is longer than a few weeks, then this is unreasonably long, and you should reconsider an earlier decision.```
+
+>### Solution:
+>To calculate the sample size required for the experiment, the largest sample size required for one of the evaluation metrics will effectively be the size to go with. I plug in the following values into the [online calculator](http://www.evanmiller.org/ab-testing/sample-size.html) for sample size:
+>
+>* Baseline conversion rate: probability of each metric
+>* Minimum detectable effect: dmin of each metric
+>* beta: 0.2
+>* alpha: 0.05
+>
+>*Total pageviews required = Total unique cookies accessing course overview page*
+>
+>Gross Conversion
+>> Total cookies required in order to have **25835 clicks** per group (control and experiment):
+>>$$ \frac {Clicks * 2}{\ ctp} $$
+>Retention
+>> Total cookies required in order to have **39155 enrollments** per group (control and experiment):
+>>$$ \frac{Enrollments * 2}{\ GrossConversion * ctp} $$
+> Net Conversion
+>>Total cookies required in order to have **27413 clicks** per group (control and experiment):
+>>$$ \frac{Clicks * 2}{\ ctp} $$
+>
+>|Metric |p	|dmin	|SD	|sample_size	|page_views|
+>|---|---|---|---|---|---|				
+>|Gross_Conversion (Enrollments/Clicks)|	0.206250|	0.0100|	0.0202|	25835|	645875|
+>|Retention (Paid/Enrollments)	|0.530000	|0.0100	|0.05495	|39155|	4746061|
+>|Net_Conversion(Paid/Clicks)	|0.109313	|0.0075|	0.0156|	27413|	685325|
+>|
+>#### Duration vs Exposure
+>4 million page views is significantly beyond the estimated 40K views we get on average daily. That would take us at least 100 days to collect the data, and typically any experiments taking longer than a few weeks is not reasonable, hence I decided to **drop Retention** as a metric. **Net Conversion** has the largest number of page views of the remaining 2 evaluation metrics.
+>>Duration at 100% exposure: 17 days<br>
+>>Duration at 75% exposure: 23 days<br>
+>>Duration at 50% exposure: 34 days
+>
+>I decided to go with **75% exposure** since a 3 week duration to run the experiment is a reasonable length. 50% exposure rate with over a month long duration is not necessary as the risk is low since we do not expect a big drop in net conversion which may impact the company's revenue. I personally try to avoid 100% exposure as I find that sometimes there are some business risks or technolgy issues resulting from running the experiment, and it is always good to hold back some traffic from the change.
+>
+>There are similar analysis using different exposure rates than mine with good justifications as well, so definitely do your own reasoning to choose the right exposure. 
+>
+>*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
 ## **Analysis**
-The data for you to analyze is in the  ['Final Project Results workbook'](https://docs.google.com/spreadsheets/d/1Mu5u9GrybDdska-ljPXyBjTpdZIUev_6i7t4LRDfXM8/edit#gid=0&sa=D&ust=1561473508747000). This data contains the raw information needed to compute the above metrics, broken down day by day. Note that there are two sheets within the spreadsheet - one for the experiment group, and one for the control group.
+The data for you to analyze is in the data/ folder:
+* [Final Project Results Control](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Results_Control.csv)
+* [Final Project Results Experiment](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Results_Experiment.csv) 
+  
+ They contain the raw information needed to compute the above metrics, broken down day by day. (One for the experiment group, and one for the control group)
  
-The meaning of each column is:
+The meaning of each column:
 | Col header | Definition|
 | ------------- | ----------|
 | Pageviews     | Number of unique cookies to view the course overview page that day.|
@@ -100,6 +154,41 @@ The meaning of each column is:
 Start by checking whether your invariant metrics are equivalent between the two groups. If the invariant metric is a simple count that should be randomly split between the 2 groups, you can use a binomial test as demonstrated in Lesson 5. Otherwise, you will need to construct a confidence interval for a difference in proportions using a similar strategy as in Lesson 1, then check whether the difference between group values falls within that confidence level.
  
 If your sanity checks fail, look at the day by day data and see if you can offer any insight into what is causing the problem.
+
+
+>### Solution:
+>
+>Before analyzing results from the experiment, sanity checks should be performed. These checks help to verify if the experiment was conducted as expected and that other factors did not influence the data which we collected. This also makes sure that data collection was correct. <br>
+>Two of these metrics are simple counts like number of cookies or number of clicks and the third is a probability (CTP). We will use two different ways of checking whether these observed values are within expectations.
+>
+>1. Sanity Checks for differences between counts<br>
+I use binomial distribution (p = 0.5) to determine if the probability for Number of Cookies and Number of Clicks is within the margin of error at 95% confidence interval since the cookies are randomly assigned to either control or experiment group.<br>
+>What we want to test is whether our observed fraction,  𝑝̂  (# of samples in control or experiment group divided by total # of samples in both groups) is not significantly different than p=0.5 . If the observed  𝑝̂ is within the margin of error range acceptable at a 95% confidence level, we passed the sanity checks! =)
+>
+>|Invariant Metrics|Experiment|Control|SD|MOE|Lower_Bound|Upper_Bound|p_observed|Pass_Sanity|
+>|---|---|---|---|---|---|---|---|---|
+>|Number of Cookies|344660|	345543	|0.000602|0.001180|0.498820|0.501180|0.500640|`True`|
+>|Number of Clicks|28325|28378|0.002100	|0.004116|0.495884|0.504116|0.500467|`True`|
+>|
+>
+>Observed fraction is within bounds,<font color=green> **passing sanity checks**</font> for both metrics.
+>
+>2. Sanity Checks for differences between probabilities (Click-through-probability) <br><br>
+>We want to make sure the proportion of clicks given a pageview (our observed CTP) is about the same in both groups (since this was not expected to change due to the experiment). In order to check this out we will calculate the CTP in each group and calculate a confidence interval for the expected difference between them.<br>
+In other words, we expect to see no difference ( CTPexp−CTPcont=0 ), with an acceptable margin of error, dictated by our calculated confidence interval. ```The changes we should notice are for the calculation of the standard error, which in this case is a pooled standard error.```<br>
+>
+>$$ SD_{pool}= \sqrt {\hat {p_{pool}}(1−\hat {p_{pool}})(\frac{\ 1}{Ncont}+\frac{\ 1}{Nexp})}$$
+>$$ \hat {p_{pool}} = \frac{\ X_{cont} + X_{exp}}{N_{cont}+ N_{exp}} $$
+>
+>|Invariant Metric|CTP_Experiment|CTP_Control|Ppool|	Diff_in_CTP|SDpool|	MOEpool|Lower_Bound|Upper_Bound|Pass_Sanity|
+>|---|---|---|---|---|---|---|---|---|---|
+>|Click through Probability|	0.0822|	0.0821|	0.0822|	0.0001|	0.0007|	0.0014|	0.0808|	0.0836|	`True`|
+>|
+>Observed fraction is within bounds,<font color=green> **passing sanity checks**</font> for Click-through-Probability metric
+>
+>*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
+
+
 
 ### **Check for Practical and Statistical Significance**
 Next, for your evaluation metrics, calculate a confidence interval for the difference between the experiment and control groups, and check whether each metric is statistically and/or practically significance. A metric is statistically significant if the confidence interval does not include 0 (that is, you can be confident there was a change), and it is practically significant if the confidence interval does not include the practical significance boundary (that is, you can be confident there is a change that matters to the business.)
