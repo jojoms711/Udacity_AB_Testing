@@ -17,7 +17,7 @@ At the time of this experiment, Udacity courses currently have two options on th
  
 In the experiment, Udacity tested a change where if the student clicked "start free trial", they were asked how much time they had available to devote to the course. If the student indicated 5 or more hours per week, they would be taken through the checkout process as usual. If they indicated fewer than 5 hours per week, a message would appear indicating that Udacity courses usually require a greater time commitment for successful completion, and suggesting that the student might like to access the course materials for free. At this point, the student would have the option to continue enrolling in the free trial, or access the course materials for free instead. This [screenshot](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/Final_Project_%20Experiment%20Screenshot.png) shows what the experiment looks like.
  
-```The hypothesis was that this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn't have enough time—without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches' capacity to support students who are likely to complete the course.```
+<font color = red> The hypothesis was that this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn't have enough time—without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches' capacity to support students who are likely to complete the course.</font>
  
 The unit of diversion is a cookie, although if the student enrolls in the free trial, they are tracked by user-id from that point forward. The same user-id cannot enroll in the free trial twice. For users that do not enroll, their user-id is not tracked in the experiment, even if they were signed in when they visited the course overview page.
 
@@ -51,7 +51,7 @@ You should also decide now what results you will be looking for in order to laun
 > Red box indicates point of change in the process flow in this test.
 >
 > **Invariant metrics:**
-> These metrics represents user activities before the user will experience the change, thus they are considered invariant.
+> These metrics represent user activities before the user will experience the change, thus they are considered invariant.
 > 1. *Number of cookies* - This is the unit of diversion and even distribution would be expected between control and experiment groups, thus considered invariant.
 > 2. *Number of clicks* - Number of unique users to click on the free trial button would also expected to be evenly distributed between control and experiment groups since at this point in the funnel, the change has not occurred yet, thus considered invariant.
 > 3. *Click-through-probability* - This metric is entirely driven from the previous 2 metrics, and if both expected to be invariant, this is automatically considered invariant too.
@@ -75,14 +75,15 @@ For each metric you selected as an evaluation metric, estimate its standard devi
 
 >### Solution:
 >$$ SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}  $$
->The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. This is the case for Gross Conversion and Net Conversion, but **not** Retention. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
+>The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. <br> 
+This is the case for Gross Conversion and Net Conversion, but <font color = red> **not** Retention</font>. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
 >
 >|Evaluation Metric             |Probability    |dmin       |SD    |
 >|------             |-----------    |----       |------|
 >|Gross Conversion   |0.206250       |0.0100	    |0.0202|
 >|Retention	        |0.530000	    |0.0100	    |0.0549|
 >|Net_Conversion	    |0.109313	    |0.0075	    |0.0156|	
->|
+>
 > *See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
@@ -105,29 +106,29 @@ Given the percentage you chose, how long would the experiment take to run, using
 >
 >*Total pageviews required = Total unique cookies accessing course overview page*
 >
->Gross Conversion
->> Total cookies required in order to have **25835 clicks** per group (control and experiment):
->>$$ \frac {Clicks * 2}{\ ctp} $$
->Retention
->> Total cookies required in order to have **39155 enrollments** per group (control and experiment):
->>$$ \frac{Enrollments * 2}{\ GrossConversion * ctp} $$
-> Net Conversion
->>Total cookies required in order to have **27413 clicks** per group (control and experiment):
->>$$ \frac{Clicks * 2}{\ ctp} $$
+>Gross Conversion probability:<br>
+> Total cookies required in order to have **25835 clicks** per group (control and experiment):
+>$$ \frac {Clicks * 2}{\ ctp} $$
+><br>Retention probability:<br>
+> Total cookies required in order to have **39155 enrollments** per group (control and experiment):
+>$$ \frac{Enrollments * 2}{\ GrossConversion * ctp} $$
+><br>Net Conversion probability:<br>
+>Total cookies required in order to have **27413 clicks** per group (control and experiment):
+>$$ \frac{Clicks * 2}{\ ctp} $$
 >
->|Metric |p	|dmin	|SD	|sample_size	|page_views|
+>|Evaluation Metric |p	|dmin	|SD	|sample_size	|page_views|
 >|---|---|---|---|---|---|				
 >|Gross_Conversion (Enrollments/Clicks)|	0.206250|	0.0100|	0.0202|	25835|	645875|
 >|Retention (Paid/Enrollments)	|0.530000	|0.0100	|0.05495	|39155|	4746061|
 >|Net_Conversion(Paid/Clicks)	|0.109313	|0.0075|	0.0156|	27413|	685325|
->|
+>
 >#### Duration vs Exposure
->4 million page views is significantly beyond the estimated 40K views we get on average daily. That would take us at least 100 days to collect the data, and typically any experiments taking longer than a few weeks is not reasonable, hence I decided to **drop Retention** as a metric. **Net Conversion** has the largest number of page views of the remaining 2 evaluation metrics.
+>4 million page views is significantly beyond the estimated 40K views we get on average daily. That would take us at least 100 days to collect the data, and typically any experiments taking longer than a few weeks is not reasonable, hence I decided to <font color=red>**drop Retention**</font> as a metric. <font color=blue>**Net Conversion** </font> has the largest number of page views of the remaining 2 evaluation metrics.
 >>Duration at 100% exposure: 17 days<br>
 >>Duration at 75% exposure: 23 days<br>
 >>Duration at 50% exposure: 34 days
 >
->I decided to go with **75% exposure** since a 3 week duration to run the experiment is a reasonable length. 50% exposure rate with over a month long duration is not necessary as the risk is low since we do not expect a big drop in net conversion which may impact the company's revenue. I personally try to avoid 100% exposure as I find that sometimes there are some business risks or technolgy issues resulting from running the experiment, and it is always good to hold back some traffic from the change.
+>I decided to go with <font color=blue>**75% exposure**</font> since a 3 week duration to run the experiment is a reasonable length. 50% exposure rate with over a month long duration is not necessary as the risk is low since we do not expect a big drop in net conversion which may impact the company's revenue. I personally try to avoid 100% exposure as I find that sometimes there are some business risks or technolgy issues resulting from running the experiment, and it is always good to hold back some traffic from the change.
 >
 >There are similar analysis using different exposure rates than mine with good justifications as well, so definitely do your own reasoning to choose the right exposure. 
 >
@@ -161,30 +162,33 @@ If your sanity checks fail, look at the day by day data and see if you can offer
 >Before analyzing results from the experiment, sanity checks should be performed. These checks help to verify if the experiment was conducted as expected and that other factors did not influence the data which we collected. This also makes sure that data collection was correct. <br>
 >Two of these metrics are simple counts like number of cookies or number of clicks and the third is a probability (CTP). We will use two different ways of checking whether these observed values are within expectations.
 >
->1. Sanity Checks for differences between counts<br>
-I use binomial distribution (p = 0.5) to determine if the probability for Number of Cookies and Number of Clicks is within the margin of error at 95% confidence interval since the cookies are randomly assigned to either control or experiment group.<br>
+>#### 1. Sanity Checks for differences between counts
+>I use binomial distribution (p = 0.5) to determine if the probability for Number of Cookies and Number of Clicks is within the margin of error at 95% confidence interval since the cookies are randomly assigned to either control or experiment group.<br>
 >What we want to test is whether our observed fraction,  𝑝̂  (# of samples in control or experiment group divided by total # of samples in both groups) is not significantly different than p=0.5 . If the observed  𝑝̂ is within the margin of error range acceptable at a 95% confidence level, we passed the sanity checks! =)
 >
 >|Invariant Metrics|Experiment|Control|SD|MOE|Lower_Bound|Upper_Bound|p_observed|Pass_Sanity|
 >|---|---|---|---|---|---|---|---|---|
 >|Number of Cookies|344660|	345543	|0.000602|0.001180|0.498820|0.501180|0.500640|`True`|
 >|Number of Clicks|28325|28378|0.002100	|0.004116|0.495884|0.504116|0.500467|`True`|
->|
+>
 >
 >Observed fraction is within bounds,<font color=green> **passing sanity checks**</font> for both metrics.
 >
->2. Sanity Checks for differences between probabilities (Click-through-probability) <br><br>
->We want to make sure the proportion of clicks given a pageview (our observed CTP) is about the same in both groups (since this was not expected to change due to the experiment). In order to check this out we will calculate the CTP in each group and calculate a confidence interval for the expected difference between them.<br>
-In other words, we expect to see no difference ( CTPexp−CTPcont=0 ), with an acceptable margin of error, dictated by our calculated confidence interval. ```The changes we should notice are for the calculation of the standard error, which in this case is a pooled standard error.```<br>
+>#### 2. Sanity Checks for differences between probabilities (Click-through-probability)
+>We want to make sure the proportion of clicks given a pageview (our observed CTP) is about the same in both groups (since this was not expected to change due to the experiment). 
+>
+>In order to check this out we will calculate the CTP in each group and calculate a confidence interval for the expected difference between them.
+>
+>In other words, we expect to see no difference ( CTPexp−CTPcont=0 ), with an acceptable margin of error, dictated by our calculated confidence interval. <font color=blue>The changes we should notice are for the calculation of the standard error, which in this case is a **pooled standard error**.</font>
 >
 >$$ SD_{pool}= \sqrt {\hat {p_{pool}}(1−\hat {p_{pool}})(\frac{\ 1}{Ncont}+\frac{\ 1}{Nexp})}$$
 >$$ \hat {p_{pool}} = \frac{\ X_{cont} + X_{exp}}{N_{cont}+ N_{exp}} $$
 >
 >|Invariant Metric|CTP_Experiment|CTP_Control|Ppool|	Diff_in_CTP|SDpool|	MOEpool|Lower_Bound|Upper_Bound|Pass_Sanity|
 >|---|---|---|---|---|---|---|---|---|---|
->|Click through Probability|	0.0822|	0.0821|	0.0822|	0.0001|	0.0007|	0.0014|	0.0808|	0.0836|	`True`|
->|
->Observed fraction is within bounds,<font color=green> **passing sanity checks**</font> for Click-through-Probability metric
+>|Click through Probability|	0.0822|	0.0821|	0.0822|	0.0001|	0.0007|	0.0014|	0.0808|	0.0836|`True`|
+>
+>Observed fraction is within bounds,<font color=green> **passing sanity checks**</font> for Click-through-Probability metric.
 >
 >*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
