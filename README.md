@@ -22,7 +22,7 @@ In the experiment, Udacity tested a change where if the student clicked "start f
 The unit of diversion is a cookie, although if the student enrolls in the free trial, they are tracked by user-id from that point forward. The same user-id cannot enroll in the free trial twice. For users that do not enroll, their user-id is not tracked in the experiment, even if they were signed in when they visited the course overview page.
 
 ---
-## **Metric Choice**
+## **1. Metric Choice**
 Which of the following metrics would you choose to measure for this experiment and why? For each metric you choose, indicate whether you would use it as an invariant metric or an evaluation metric. The practical significance boundary for each metric, that is, the difference that would have to be observed before that was a meaningful change for the business, is given in parentheses. All practical significance boundaries are given as absolute changes.
  
 Any place "unique cookies" are mentioned, the uniqueness is determined by day. (That is, the same cookie visiting on different days would be counted twice.) User-ids are automatically unique since the site does not allow the same user-id to enroll twice.
@@ -68,13 +68,13 @@ You should also decide now what results you will be looking for in order to laun
 
 
 ---
-## **Measuring Variability**
+## **2. Measuring Variability**
 This [Final Project Baseline Values](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Baseline_Values.csv) spreadsheet contains rough estimates of the baseline values for these metrics (again, these numbers have been changed from Udacity's true numbers).
  
 For each metric you selected as an evaluation metric, estimate its standard deviation analytically. Do you expect the analytic estimates to be accurate? That is, for which metrics, if any, would you want to collect an empirical estimate of the variability if you had time?
 
 >### Solution:
->$$ SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}  $$
+>$$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$$
 >The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. <br> 
 This is the case for Gross Conversion and Net Conversion, but <font color = red> **not** Retention</font>. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
 >
@@ -87,11 +87,11 @@ This is the case for Gross Conversion and Net Conversion, but <font color = red>
 > *See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
-## **Sizing**
-### **Choosing Number of Samples given Power**
+## **3. Sizing**
+### **3.1 Choosing Number of Samples given Power**
 Using the analytic estimates of variance, how many ```pageviews total (across both groups)``` would you need to collect to adequately power the experiment? ```Use an alpha of 0.05 and a beta of 0.2.``` Make sure you have enough power for each metric
 
-### **Choosing Duration vs. Exposure**
+### **3.2 Choosing Duration vs. Exposure**
 What percentage of Udacity's traffic would you divert to this experiment (assuming there were no other experiments you wanted to run simultaneously)? Is the change risky enough that you wouldn't want to run on all traffic?
  
 Given the percentage you chose, how long would the experiment take to run, using the analytic estimates of variance? ```If the answer is longer than a few weeks, then this is unreasonably long, and you should reconsider an earlier decision.```
@@ -108,13 +108,13 @@ Given the percentage you chose, how long would the experiment take to run, using
 >
 >Gross Conversion probability:<br>
 > Total cookies required in order to have **25835 clicks** per group (control and experiment):
->$$ \frac {Clicks * 2}{\ ctp} $$
+>$$\frac {Clicks * 2}{\ ctp}$$
 ><br>Retention probability:<br>
 > Total cookies required in order to have **39155 enrollments** per group (control and experiment):
->$$ \frac{Enrollments * 2}{\ GrossConversion * ctp} $$
+>$$\frac{Enrollments * 2}{\ GrossConversion * ctp}$$
 ><br>Net Conversion probability:<br>
 >Total cookies required in order to have **27413 clicks** per group (control and experiment):
->$$ \frac{Clicks * 2}{\ ctp} $$
+>$$\frac{Clicks * 2}{\ ctp}$$
 >
 >|Evaluation Metric |p	|dmin	|SD	|sample_size	|page_views|
 >|---|---|---|---|---|---|				
@@ -135,7 +135,7 @@ Given the percentage you chose, how long would the experiment take to run, using
 >*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
-## **Analysis**
+## **4. Analysis**
 The data for you to analyze is in the data/ folder:
 * [Final Project Results Control](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Results_Control.csv)
 * [Final Project Results Experiment](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/data/Final_Project_Results_Experiment.csv) 
@@ -143,15 +143,15 @@ The data for you to analyze is in the data/ folder:
  They contain the raw information needed to compute the above metrics, broken down day by day. (One for the experiment group, and one for the control group)
  
 The meaning of each column:
-| Col header | Definition|
-| ------------- | ----------|
-| Pageviews     | Number of unique cookies to view the course overview page that day.|
-| Clicks        | Number of unique cookies to click the course overview page that day.|
-| Enrollments   | Number of user-ids to enroll in the free trial that day.|
-| Payments      | Number of user-ids who who enrolled on that day to remain enrolled for 14 days and thus make a payment. (Note that the date for this column is the start date, that is, the date of enrollment, rather than the date of the payment. The payment happened 14 days later. Because of this, the enrollments and payments are tracked for 14 fewer days than the other columns.) |
+|Col header | Definition|
+|-----------| ----------|
+|Pageviews     | Number of unique cookies to view the course overview page that day.|
+|Clicks        | Number of unique cookies to click the course overview page that day.|
+|Enrollments   | Number of user-ids to enroll in the free trial that day.|
+|Payments      | Number of user-ids who who enrolled on that day to remain enrolled for 14 days and thus make a payment. (Note that the date for this column is the start date, that is, the date of enrollment, rather than the date of the payment. The payment happened 14 days later. Because of this, the enrollments and payments are tracked for 14 fewer days than the other columns.) |
 
 
-### **Sanity Checks**
+### **4.1 Sanity Checks**
 Start by checking whether your invariant metrics are equivalent between the two groups. If the invariant metric is a simple count that should be randomly split between the 2 groups, you can use a binomial test as demonstrated in Lesson 5. Otherwise, you will need to construct a confidence interval for a difference in proportions using a similar strategy as in Lesson 1, then check whether the difference between group values falls within that confidence level.
  
 If your sanity checks fail, look at the day by day data and see if you can offer any insight into what is causing the problem.
@@ -181,8 +181,8 @@ If your sanity checks fail, look at the day by day data and see if you can offer
 >
 >In other words, we expect to see no difference ( CTPexp−CTPcont=0 ), with an acceptable margin of error, dictated by our calculated confidence interval. <font color=blue>The changes we should notice are for the calculation of the standard error, which in this case is a **pooled standard error**.</font>
 >
->$$ SD_{pool}= \sqrt {\hat {p_{pool}}(1−\hat {p_{pool}})(\frac{\ 1}{Ncont}+\frac{\ 1}{Nexp})}$$
->$$ \hat {p_{pool}} = \frac{\ X_{cont} + X_{exp}}{N_{cont}+ N_{exp}} $$
+>$$SD_{pool}= \sqrt {\hat {p_{pool}}(1−\hat {p_{pool}})(\frac{\ 1}{Ncont}+\frac{\ 1}{Nexp})}$$
+>$$\hat {p_{pool}} = \frac{\ X_{cont} + X_{exp}}{N_{cont}+ N_{exp}}$$
 >
 >|Invariant Metric|CTP_Experiment|CTP_Control|Ppool|	Diff_in_CTP|SDpool|	MOEpool|Lower_Bound|Upper_Bound|Pass_Sanity|
 >|---|---|---|---|---|---|---|---|---|---|
@@ -193,26 +193,58 @@ If your sanity checks fail, look at the day by day data and see if you can offer
 >*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 
-
-### **Check for Practical and Statistical Significance**
+### **4.2 Check for Practical and Statistical Significance**
 Next, for your evaluation metrics, calculate a confidence interval for the difference between the experiment and control groups, and check whether each metric is statistically and/or practically significance. A metric is statistically significant if the confidence interval does not include 0 (that is, you can be confident there was a change), and it is practically significant if the confidence interval does not include the practical significance boundary (that is, you can be confident there is a change that matters to the business.)
  
 If you have chosen multiple evaluation metrics, you will need to decide whether to use the Bonferroni correction. When deciding, keep in mind the results you are looking for in order to launch the experiment. Will the fact that you have multiple metrics make those results more likely to occur by chance than the alpha level of 0.05?
 
+>### Solution:
+>Based on the experiment results, we have 23 days of enrollment, so to calculate the probability of the evaluation metrics, the data points should be retrieved from those 23 days only.  
+>The next step is looking at the changes between the control and experiment groups with regard to our evaluation metrics to make sure the difference is there, that it is statistically significant (difference is not due to chance) and most importantly practically significant (the difference is "big" enough to make the experimented change beneficial to the company).
+>
+>#### Practical Significance Test:
+>To determine the practical significance level, the probability of difference(Pdiff) between the control and experiment group has to be larger than dmin. 
+>Compute difference between Gross Conversion Experiment and Control group. Repeat the same for Net Conversion.
+>
+>#### Statistical Significance Test:
+>Statistically significant means a result is unlikely due to chance. The p-value is the probability of obtaining the difference we saw from a sample (or a larger one) if there really isn’t a difference for all users.<br><br>
+>Statistical significance doesn’t mean practical significance. Only by considering context can we determine whether a difference is practically significant; that is, whether it requires action.<br><br>
+>It is statistically significant if:
+>* The confidence interval does not cross zero.
+>* The observed p difference is not small, within CI range.
+>* The observed p difference is less than alpha (A conventional (and arbitrary) threshold to indicate it is highly unlikely result occured by chance)
+>
+>With large sample sizes, you’re virtually certain to see statistically significant results, in such situations it’s important to interpret the size of the difference.
+>
+>Small sample sizes often do not yield statistical significance; when they do, the differences themselves tend also to be practically significant; that is, meaningful enough to warrant action.
+>
+>*refer further details here: https://measuringu.com/statistically-significant/*
+>
+>| Metrics  |Experiment|	Control|	Total|	Ppool|	dmin|	SDpool|	MOE|	Pdiff|	Lower|	Upper|
+>|---|---|---|---|---|---|---|---|---|---|---|
+>|Gross_Conversion|	0.198320|0.218875|NaN	|0.208607|	0.0100|	0.004372|0.008569|-0.020555|-0.029124|-0.011986|
+>|Net_Conversion|0.112688|0.117562|	NaN	|0.115127|	0.0075|	0.003434|0.006731|-0.004874|-0.011604|0.001857|
 
-###  **Run Sign Tests**
+> Based on the table calculations above:<br>
+> <font color=green>**Gross Conversion metric is practically significant**</font> as the probability difference between experiment and control group, Pdiff is -2%, which is greater than the 1% dmin change. <br>
+> It is also <font color=green>**statistically significant**</font> since Pdiff is -0.02, which is within the 95% confidence interval range: [-0.029124, -0.011986] and the CI does not include 0.
+> 
+>  <font color=red>**Net Conversion metric is NOT practically significant**</font> as the probability difference between experiment and control group, Pdiff is -0.4%, which is lower than the 0.75% dmin change.<br> It is also <font color=red>**NOT statistically significant**</font> since Pdiff is -0.004, which is a very small decrease and as such is not statistically significant. The 95% confidence interval range: [-0.011604, 0.001857] indicates the CI does include 0.
+
+
+###  **4c. Run Sign Tests**
 For each evaluation metric, do a sign test using the day-by-day breakdown. If the sign test does not agree with the confidence interval for the difference, see if you can figure out why.
 
 
 ---
-## **Summary**
+## **5. Summary**
 State whether you used the Bonferroni correction, and explain why or why not. If there are any discrepancies between the effect size hypothesis tests and the sign tests, describe the discrepancy and why you think it arose.
 
 
 ---
-## **Make a Recommendation**
+## **6. Make a Recommendation**
 Finally, make a recommendation. Would you launch this experiment, not launch it, dig deeper, run a follow-up experiment, or is it a judgment call? If you would dig deeper, explain what area you would investigate. If you would run follow-up experiments, briefIy describe that experiment. If it is a judgment call, explain what factors would be relevant to the decision.
 
 ---
-## **Follow-Up Experiment: How to Reduce Early Cancellations**
+## **7. Follow-Up Experiment: How to Reduce Early Cancellations**
 If you wanted to reduce the number of frustrated students who cancel early in the course, what experiment would you try? Give a brief description of the change you would make, what your hypothesis would be about the effect of the change, what metrics you would want to measure, and what unit of diversion you would use. Include an explanation of each of your choices.
