@@ -8,7 +8,7 @@ For those who have never done A/B testing before, I recommend watching the Udaci
 **Resource links**
 * [Udacity A/B Testing Project link](https://www.udacity.com/course/ab-testing--ud257)
 * [Analysis done by Nikhil Sawal on towardsdatascience](https://towardsdatascience.com/what-i-learned-from-udacitys-course-on-a-b-testing-by-google-45f6d3297f42)
-* [Analysis done by Andrew Bauman on GitHub](https://github.com/baumanab/udacity_ABTesting/tree36bc61e56e0d8485573ed17d4f6af9471e700f94#unused-metrics)
+* [Analysis done by Andrew Bauman on GitHub](https://github.com/baumanab/udacity_ABTesting/)
 * [Analysis done by Tammy Rotem on Kaggle](https://www.kaggle.com/tammyrotem/ab-tests-with-python)
 
 ----
@@ -74,13 +74,7 @@ This [Final Project Baseline Values](https://github.com/jojoms711/Udacity_AB_Tes
  
 For each metric you selected as an evaluation metric, estimate its standard deviation analytically. Do you expect the analytic estimates to be accurate? That is, for which metrics, if any, would you want to collect an empirical estimate of the variability if you had time?
 
-$$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$$
-
 >### Solution:
->$ SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n} $
-
-
->$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$
 >
 >The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. <br> 
 This is the case for Gross Conversion and Net Conversion, but <font color = red> **not** Retention</font>. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
@@ -115,13 +109,12 @@ Given the percentage you chose, how long would the experiment take to run, using
 >
 >Gross Conversion probability:<br>
 > Total cookies required in order to have **25835 clicks** per group (control and experiment):
->$$ \frac {Clicks * 2}{\ ctp} $$
-><br>Retention probability:<br>
-> Total cookies required in order to have **39155 enrollments** per group (control and experiment):
->$$\frac{Enrollments * 2}{\ GrossConversion * ctp}$$
-><br>Net Conversion probability:<br>
+>
+>Retention probability:<br>
+>Total cookies required in order to have **39155 enrollments** per group (control and experiment):
+>
+>Net Conversion probability:<br>
 >Total cookies required in order to have **27413 clicks** per group (control and experiment):
->$$\frac{Clicks * 2}{\ ctp}$$
 >
 >|Evaluation Metric |p	|dmin	|SD	|sample_size	|page_views|
 >|---|---|---|---|---|---|				
@@ -188,9 +181,6 @@ If your sanity checks fail, look at the day by day data and see if you can offer
 >
 >In other words, we expect to see no difference ( CTPexp−CTPcont=0 ), with an acceptable margin of error, dictated by our calculated confidence interval. <font color=blue>The changes we should notice are for the calculation of the standard error, which in this case is a **pooled standard error**.</font>
 >
->$$SD_{pool}= \sqrt {\hat {p_{pool}}(1−\hat {p_{pool}})(\frac{\ 1}{Ncont}+\frac{\ 1}{Nexp})}$$
->$$\hat {p_{pool}} = \frac{\ X_{cont} + X_{exp}}{N_{cont}+ N_{exp}}$$
->
 >|Invariant Metric|CTP_Experiment|CTP_Control|Ppool|	Diff_in_CTP|SDpool|	MOEpool|Lower_Bound|Upper_Bound|Pass_Sanity|
 >|---|---|---|---|---|---|---|---|---|---|
 >|Click through Probability|	0.0822|	0.0821|	0.0822|	0.0001|	0.0007|	0.0014|	0.0808|	0.0836|`True`|
@@ -248,13 +238,12 @@ For each evaluation metric, do a sign test using the day-by-day breakdown. If th
 >Based on above results analysis, I expect to see experiment group with lower gross conversion rate and net conversion rate than the control group. Compute the Gross Conversion and Net Conversion daily per group, then count how many days each metric was lower in the experiment group and this will be the number of successes for the binomial test to calculate the two-tail P value. 
 >
 >I use an [online binomial tool](https://www.graphpad.com/quickcalcs/binomial1/) to calculate the two-tail P value. >You can implement the calculations behind it by referring to [Tammy Rotem's kaggle solution](https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook).
+>
 >#### Gross Conversion comparison: 4 failures, 19 successes
 >So, P-Value of the test is 0.0026. Since the probability to pass the test daily is 1-0.0026 = 0.9974 which is greater than 95%, this result does not happen by chance (statistically significant) and <font color=green>**it passes the sign test**</font>.
 >
 >#### Net Conversion comparison: 10 failures , 13 successes
 >So, P-Value of the test is 0.6776. Since the probability to pass the test daily is 1-0.6776 = 0.3224 which is lower than 95% , <font color=red>**it does NOT pass the sign test.**</font> The experiment will not have statistical significance impact on Net Conversion.
-
-
 
 ---
 ## **5. Summary**
@@ -281,7 +270,7 @@ Finally, make a recommendation. Would you launch this experiment, not launch it,
 If you wanted to reduce the number of frustrated students who cancel early in the course, what experiment would you try? Give a brief description of the change you would make, what your hypothesis would be about the effect of the change, what metrics you would want to measure, and what unit of diversion you would use. Include an explanation of each of your choices.
 
 >>### Solution:
-> (This is not a solution...but I think he did a pretty fantastic job here so I shall refrain from attempting to make up a crappy recommendation myself..) Feel free to check out [Andrew Bauman's analysis](https://github.com/baumanab/udacity_ABTesting/tree36bc61e56e0d8485573ed17d4f6af9471e700f94#unused-metrics) including follow up experiment suggestions. I am sure I missed out on other good examples on the web, so please feel free to share. I am always looking to learn and improve since this is my first A/B testing project. I will be more than happy to include here as reference for others too. 
+> (This is not a solution...but I think he did a pretty fantastic job here so I shall refrain from attempting to make up a crappy recommendation myself..) Feel free to check out [Andrew Bauman's analysis](https://github.com/baumanab/udacity_ABTesting/) including follow up experiment suggestions. I am sure I missed out on other good examples on the web, so please feel free to share. I am always looking to learn and improve since this is my first A/B testing project. I will be more than happy to include here as reference for others too. 
 
 ## Retrospective
 It took me about 15 days to complete this project with average 3-4 hours spent each day. I have never done an A/B testing project from start to finish but I have basic understanding of statistics and Python libraries like numpy and pandas. I was completely new to creating git and using vscode and markdown. I spent about 10 days going through course and creating the rough draft on Evernote. The other 5 days was spent on recreating the excel calculations in Jupyter noteboook using Python and writing explanations on both Jupyter notebook and formatting on README.  
