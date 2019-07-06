@@ -3,10 +3,11 @@ Udacity published a course for A/B Testing, also known as split tests, which are
 
 I used the template provided by Udacity and provided my walk-through solution (highlighted in yellow) in each section with detailed python calculations stored in [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb). 
 
-I have also leveraged other resources in the web (similar AB testing analysis done by others) to better understand and complete this project in Python. Initially, I completed this project on Evernote, compiling all my calculations solely based on the basic Windows calculator and Excel spreadsheet to be familiar with the analysis, then I write in Python to replicate the same results in VSC.  
+For those who have never done A/B testing before, I recommend watching the Udacity A/B testing course, and if you still have time, read through the summary wonderfully done by others in the resource links below before attempting the final project on your own. For me, it was a stepping stone to know how to start the project as it opens up many possibilities on how to implement the test (ie. Python, or simple excel calculations, github etc). Initially, I created a rough draft on Evernote, compiling all my calculations solely based on the basic Windows calculator and Excel spreadsheet to be familiar with the analysis, then I write in Python to replicate the same results in vscode as a README (my first time!!!). Creating a git and using markdown template on vscode was a great learning experience for me as I wanted to share this as my first GITHUB project. 
 
 **Resource links**
 * [Udacity A/B Testing Project link](https://www.udacity.com/course/ab-testing--ud257)
+* [Analysis done by Nikhil Sawal on towardsdatascience](https://towardsdatascience.com/what-i-learned-from-udacitys-course-on-a-b-testing-by-google-45f6d3297f42)
 * [Analysis done by Andrew Bauman on GitHub](https://github.com/baumanab/udacity_ABTesting/tree36bc61e56e0d8485573ed17d4f6af9471e700f94#unused-metrics)
 * [Analysis done by Tammy Rotem on Kaggle](https://www.kaggle.com/tammyrotem/ab-tests-with-python)
 
@@ -220,31 +221,62 @@ If you have chosen multiple evaluation metrics, you will need to decide whether 
 >
 >*refer further details here: https://measuringu.com/statistically-significant/*
 >
->| Metrics  |Experiment|	Control|	Total|	Ppool|	dmin|	SDpool|	MOE|	Pdiff|	Lower|	Upper|
->|---|---|---|---|---|---|---|---|---|---|---|
->|Gross_Conversion|	0.198320|0.218875|NaN	|0.208607|	0.0100|	0.004372|0.008569|-0.020555|-0.029124|-0.011986|
->|Net_Conversion|0.112688|0.117562|	NaN	|0.115127|	0.0075|	0.003434|0.006731|-0.004874|-0.011604|0.001857|
+>| Metrics  |Experiment|	Control|	Ppool|	dmin|	SDpool|	MOE|	Pdiff|	Lower|	Upper|
+>|---|---|---|---|---|---|---|---|---|---|
+>|Gross_Conversion|	0.198320|0.218875|0.208607|	0.0100|	0.004372|0.008569|-0.020555|-0.029124|-0.011986|
+>|Net_Conversion|0.112688|0.117562|0.115127|	0.0075|	0.003434|0.006731|-0.004874|-0.011604|0.001857|
 
 > Based on the table calculations above:<br>
 > <font color=green>**Gross Conversion metric is practically significant**</font> as the probability difference between experiment and control group, Pdiff is -2%, which is greater than the 1% dmin change. <br>
 > It is also <font color=green>**statistically significant**</font> since Pdiff is -0.02, which is within the 95% confidence interval range: [-0.029124, -0.011986] and the CI does not include 0.
 > 
->  <font color=red>**Net Conversion metric is NOT practically significant**</font> as the probability difference between experiment and control group, Pdiff is -0.4%, which is lower than the 0.75% dmin change.<br> It is also <font color=red>**NOT statistically significant**</font> since Pdiff is -0.004, which is a very small decrease and as such is not statistically significant. The 95% confidence interval range: [-0.011604, 0.001857] indicates the CI does include 0.
+> <font color=red>**Net Conversion metric is NOT practically significant**</font> as the probability difference between experiment and control group, Pdiff is -0.4%, which is lower than the 0.75% dmin change.<br> It is also <font color=red>**NOT statistically significant**</font> since Pdiff is -0.004, which is a very small decrease and as such is not statistically significant. The 95% confidence interval range: [-0.011604, 0.001857] indicates the CI does include 0.
 
 
 ###  **4c. Run Sign Tests**
 For each evaluation metric, do a sign test using the day-by-day breakdown. If the sign test does not agree with the confidence interval for the difference, see if you can figure out why.
+
+> ### Solution:
+>In a sign test, we check if the trend of change we observed (increase or decrease) was evident in the daily data. 
+>
+>Based on above results analysis, I expect to see experiment group with lower gross conversion rate and net conversion rate than the control group. Compute the Gross Conversion and Net Conversion daily per group, then count how many days each metric was lower in the experiment group and this will be the number of successes for the binomial test to calculate the two-tail P value. 
+>
+>I use an [online binomial tool](https://www.graphpad.com/quickcalcs/binomial1/) to calculate the two-tail P value. >You can implement the calculations behind it by referring to [Tammy Rotem's kaggle solution](https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook).
+>#### Gross Conversion comparison: 4 failures, 19 successes
+>So, P-Value of the test is 0.0026. Since the probability to pass the test daily is 1-0.0026 = 0.9974 which is greater than 95%, this result does not happen by chance (statistically significant) and <font color=green>**it passes the sign test**</font>.
+>
+>#### Net Conversion comparison: 10 failures , 13 successes
+>So, P-Value of the test is 0.6776. Since the probability to pass the test daily is 1-0.6776 = 0.3224 which is lower than 95% , <font color=red>**it does NOT pass the sign test.**</font> The experiment will not have statistical significance impact on Net Conversion.
+
 
 
 ---
 ## **5. Summary**
 State whether you used the Bonferroni correction, and explain why or why not. If there are any discrepancies between the effect size hypothesis tests and the sign tests, describe the discrepancy and why you think it arose.
 
+>### Solution:
+>This experiment diverts cookies into two groups, experiment and control randomly. The experiment group sees a screen triggering them in the free trial signup process to input the amount of time they are willing to commit to study, and the control group does not see the screen. 
+>
+>Three invariant metrics (Number of Cookies, Number of clicks on "start free trial", and Click-Through-Probability) are chosen for purposes of validation and sanity checking. Gross Conversion (enrollment/cookie) and Net Conversion (payments/cookie) are identified as the evaluation metrics. The null hypothesis is that there is no difference in the evaluation metrics between the groups. In order to launch this experiment, the null hypothesis must be rejected for ALL evaluation metrics (statistically significant) and must meet or exceed the practical significance level for ALL evaluation metrics. 
+>
+>We expect Gross Conversion to decrease and Net Conversion to increase. Since we need both metrics to pass the test, the sign test is focus on finding any false negatives as false negatives have greatest impact when ALL metrics must be satisfied to trigger launch. Bonferroni correction method is not suitable as it is used for controlling type I errors (false positives) when using multiple metrics in which relevance of ANY of the metrics matches the hypothesis. The risk of type I errors increases as the number of metrics increases (significance by random chance). 
+>
+>Net Conversion is neither statistically nor practically significant in both the effect size test and sign test whereas Gross Conversion is statistically and practically significant for both tests. 
 
 ---
 ## **6. Make a Recommendation**
 Finally, make a recommendation. Would you launch this experiment, not launch it, dig deeper, run a follow-up experiment, or is it a judgment call? If you would dig deeper, explain what area you would investigate. If you would run follow-up experiments, briefIy describe that experiment. If it is a judgment call, explain what factors would be relevant to the decision.
 
+>### Solution:
+>Gross conversion is practically and statistically significant in this experiment, showing a decline in number of users signing up for free trial without any significant (statistically and practically) impact to the Net Conversion rate. This means the number of users remain enrolled after free trial which is the main source of revenue for the company is not affected by this experiment (neither increasing nor decreasing), indicating very low risk of financial losses. Considering that it did not impact the Net Conversion (no change in revenue, which means little benefits to implement the change), I would recommend to NOT launch this experiment, and run other experiments instead.
+
 ---
 ## **7. Follow-Up Experiment: How to Reduce Early Cancellations**
 If you wanted to reduce the number of frustrated students who cancel early in the course, what experiment would you try? Give a brief description of the change you would make, what your hypothesis would be about the effect of the change, what metrics you would want to measure, and what unit of diversion you would use. Include an explanation of each of your choices.
+
+>>### Solution:
+> (This is not a solution...but I think he did a pretty fantastic job here so I shall refrain from attempting to make up a crappy recommendation myself..) Feel free to check out [Andrew Bauman's analysis](https://github.com/baumanab/udacity_ABTesting/tree36bc61e56e0d8485573ed17d4f6af9471e700f94#unused-metrics) including follow up experiment suggestions. I am sure I missed out on other good examples on the web, so please feel free to share. I am always looking to learn and improve since this is my first A/B testing project. I will be more than happy to include here as reference for others too. 
+
+## Retrospective
+It took me about 15 days to complete this project with average 3-4 hours spent each day. I have never done an A/B testing project from start to finish but I have basic understanding of statistics and Python libraries like numpy and pandas. I was completely new to creating git and using vscode and markdown. I spent about 10 days going through course and creating the rough draft on Evernote. The other 5 days was spent on recreating the excel calculations in Jupyter noteboook using Python and writing explanations on both Jupyter notebook and formatting on README.  
+I love open source =) 
