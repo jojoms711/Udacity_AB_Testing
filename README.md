@@ -75,7 +75,7 @@ This [Final Project Baseline Values](https://github.com/jojoms711/Udacity_AB_Tes
 For each metric you selected as an evaluation metric, estimate its standard deviation analytically. Do you expect the analytic estimates to be accurate? That is, for which metrics, if any, would you want to collect an empirical estimate of the variability if you had time?
 
 >### Solution:
->$$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$$
+$$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$$
 >
 >The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. <br> 
 This is the case for Gross Conversion and Net Conversion, but <font color = red> **not** Retention</font>. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
