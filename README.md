@@ -1,7 +1,7 @@
 # **Background**
 Udacity published a course for A/B Testing, also known as split tests, which are online experiments used to test potential improvements to a website or mobile app. Udacity's AB Testing course is presented by Google and focuses on design and analysis of A/B tests. The course covers how to choose and characterize metrics to evaluate your experiments, how to design an experiment with enough statistical power and how to analyze the results and draw valid conclusions. This is the final project in the course.
 
-I used the template provided by Udacity and provided my walk-through solution (highlighted in yellow) in each section with detailed python calculations stored in [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb). 
+I used the template provided by Udacity and provided my walk-through solution (highlighted in yellow) in each section with detailed python calculations stored in [AB_Testing_Code.ipnyb](./AB_Testing_code.ipynb). To view it with images and formulas properly rendered on GITHUB, please check [AB_Testing_Code.html](./AB_Testing_code.html).
 
 For those who have never done A/B testing before, I recommend watching the Udacity A/B testing course, and if you still have time, read through the summary wonderfully done by others in the resource links below before attempting the final project on your own. For me, it was a stepping stone to know how to start the project as it opens up many possibilities on how to implement the test (ie. Python, or simple excel calculations, github etc). Initially, I created a rough draft on Evernote, compiling all my calculations solely based on the basic Windows calculator and Excel spreadsheet to be familiar with the analysis, then I write in Python to replicate the same results in vscode as a README (my first time!!!). Creating a git and using markdown template on vscode was a great learning experience for me as I wanted to share this as my first GITHUB project. 
 
@@ -10,6 +10,7 @@ For those who have never done A/B testing before, I recommend watching the Udaci
 * [Analysis done by Nikhil Sawal on towardsdatascience](https://towardsdatascience.com/what-i-learned-from-udacitys-course-on-a-b-testing-by-google-45f6d3297f42)
 * [Analysis done by Andrew Bauman on GitHub](https://github.com/baumanab/udacity_ABTesting/)
 * [Analysis done by Tammy Rotem on Kaggle](https://www.kaggle.com/tammyrotem/ab-tests-with-python)
+
 
 ----
 # **Final Project Instructions**
@@ -85,7 +86,6 @@ This is the case for Gross Conversion and Net Conversion, but <font color = red>
 >|Retention	        |0.530000	    |0.0100	    |0.0549|
 >|Net_Conversion	    |0.109313	    |0.0075	    |0.0156|	
 >
-> *See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
 ## **3. Sizing**
@@ -132,7 +132,6 @@ Given the percentage you chose, how long would the experiment take to run, using
 >
 >There are similar analysis using different exposure rates than mine with good justifications as well, so definitely do your own reasoning to choose the right exposure. 
 >
->*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
 
 ---
 ## **4. Analysis**
@@ -187,8 +186,6 @@ If your sanity checks fail, look at the day by day data and see if you can offer
 >
 >Observed fraction is within bounds,<font color=green> **passing sanity checks**</font> for Click-through-Probability metric.
 >
->*See [AB_Testing_Code.ipnyb](https://github.com/jojoms711/Udacity_AB_Testing/blob/master/AB_Testing_code.ipynb) for calculation breakdown*
-
 
 ### **4.2 Check for Practical and Statistical Significance**
 Next, for your evaluation metrics, calculate a confidence interval for the difference between the experiment and control groups, and check whether each metric is statistically and/or practically significance. A metric is statistically significant if the confidence interval does not include 0 (that is, you can be confident there was a change), and it is practically significant if the confidence interval does not include the practical significance boundary (that is, you can be confident there is a change that matters to the business.)
@@ -240,9 +237,11 @@ For each evaluation metric, do a sign test using the day-by-day breakdown. If th
 >I use an [online binomial tool](https://www.graphpad.com/quickcalcs/binomial1/) to calculate the two-tail P value. >You can implement the calculations behind it by referring to [Tammy Rotem's kaggle solution](https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook).
 >
 >#### Gross Conversion comparison: 4 failures, 19 successes
+> 
 >So, P-Value of the test is 0.0026. Since the probability to pass the test daily is 1-0.0026 = 0.9974 which is greater than 95%, this result does not happen by chance (statistically significant) and <font color=green>**it passes the sign test**</font>.
 >
 >#### Net Conversion comparison: 10 failures , 13 successes
+> 
 >So, P-Value of the test is 0.6776. Since the probability to pass the test daily is 1-0.6776 = 0.3224 which is lower than 95% , <font color=red>**it does NOT pass the sign test.**</font> The experiment will not have statistical significance impact on Net Conversion.
 
 ---
