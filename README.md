@@ -215,7 +215,7 @@ If you have chosen multiple evaluation metrics, you will need to decide whether 
 >
 >Small sample sizes often do not yield statistical significance; when they do, the differences themselves tend also to be practically significant; that is, meaningful enough to warrant action.
 >
->*refer further details here: https://measuringu.com/statistically-significant/*
+>*Refer further details here: https://measuringu.com/statistically-significant/*
 >
 >| Metrics  |Experiment|	Control|	Ppool|	dmin|	SDpool|	MOE|	Pdiff|	Lower|	Upper|
 >|---|---|---|---|---|---|---|---|---|---|
@@ -269,7 +269,7 @@ Finally, make a recommendation. Would you launch this experiment, not launch it,
 ## **7. Follow-Up Experiment: How to Reduce Early Cancellations**
 If you wanted to reduce the number of frustrated students who cancel early in the course, what experiment would you try? Give a brief description of the change you would make, what your hypothesis would be about the effect of the change, what metrics you would want to measure, and what unit of diversion you would use. Include an explanation of each of your choices.
 
->>### Solution:
+>### Solution:
 > (This is not a solution...but I think he did a pretty fantastic job here so I shall refrain from attempting to make up a crappy recommendation myself..) Feel free to check out [Andrew Bauman's analysis](https://github.com/baumanab/udacity_ABTesting/) including follow up experiment suggestions. I am sure I missed out on other good examples on the web, so please feel free to share. I am always looking to learn and improve since this is my first A/B testing project. I will be more than happy to include here as reference for others too. 
 
 ## Retrospective
