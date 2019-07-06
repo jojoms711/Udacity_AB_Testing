@@ -76,6 +76,7 @@ For each metric you selected as an evaluation metric, estimate its standard devi
 
 >### Solution:
 >$$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$$
+>
 >The analytical estimate of standard deviation tends to be near the empirically determined standard deviation for those cases in which the unit of diversion is equal to the unit of analysis. <br> 
 This is the case for Gross Conversion and Net Conversion, but <font color = red> **not** Retention</font>. If we do ultimately decide to use Retention, then we should calculate the empirical variability. 
 >
@@ -109,7 +110,7 @@ Given the percentage you chose, how long would the experiment take to run, using
 >
 >Gross Conversion probability:<br>
 > Total cookies required in order to have **25835 clicks** per group (control and experiment):
->$$\frac {Clicks * 2}{\ ctp}$$
+>$$ \frac {Clicks * 2}{\ ctp} $$
 ><br>Retention probability:<br>
 > Total cookies required in order to have **39155 enrollments** per group (control and experiment):
 >$$\frac{Enrollments * 2}{\ GrossConversion * ctp}$$
