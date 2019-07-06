@@ -74,7 +74,7 @@ This [Final Project Baseline Values](https://github.com/jojoms711/Udacity_AB_Tes
  
 For each metric you selected as an evaluation metric, estimate its standard deviation analytically. Do you expect the analytic estimates to be accurate? That is, for which metrics, if any, would you want to collect an empirical estimate of the variability if you had time?
 
-$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$
+$$SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n}$$
 
 >### Solution:
 >$ SD= \sqrt \frac{\ \hat{p}*(1−\hat{p})}{\ n} $
